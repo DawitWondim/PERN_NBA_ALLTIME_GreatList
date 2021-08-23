@@ -11,7 +11,7 @@ app.use(express.json());
 //ROUTES//
 
 // Create an All Time Great Player
-app.post("/legends", async (req, res) => {
+app.post("/players", async (req, res) => {
     try {
         const {name} = req.body;
         const {position} = req.body;
@@ -27,9 +27,9 @@ app.post("/legends", async (req, res) => {
 })
 
 // Get all players
-app.get("/legends", async (req, res) => {
+app.get("/players", async (req, res) => {
     try {
-        const allPlayers = await pool.query("SELECT * FROM players");
+        const allPlayers = await pool.query("SELECT * FROM players ORDER BY rank");
         res.json(allPlayers.rows);
     }catch(err){
         console.error(err.message);
@@ -37,7 +37,7 @@ app.get("/legends", async (req, res) => {
 })
 
 // Get a single player
-app.get("/todos/:id", async (req, res) => {
+app.get("/players/:id", async (req, res) => {
     try {
         const {player_id} = req.params;
         const player = await pool.query("SELECT * FROM players WHERE player_id = $1", [player_id]);
